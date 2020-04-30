@@ -1,4 +1,4 @@
-﻿namespace Keylogger1
+﻿namespace Keylogger
 {
     partial class Form1
     {

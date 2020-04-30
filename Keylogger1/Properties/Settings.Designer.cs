@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Keylogger1.Properties
+namespace Keylogger.Properties
 {
 
 
