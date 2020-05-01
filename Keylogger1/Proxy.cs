@@ -13,4 +13,5 @@ namespace Keylogger
             return Cryptography.Decrypt(_realDocument.GetDocument(docPath), "parola");
         }
     }
+    //blabla
 }
